@@ -12,10 +12,23 @@ app.use(express.json());
 app.use(cors());
 
 //Database connection with mongodb
-mongoose.connect(
+//mongoose.connect(
   //"mongodb+srv://greatstackdev:05082002(tanu)@cluster0.faznc5i.mongodb.net/e-commerce"
-  "mongodb+srv://greatstackdev:05082002tanu@cluster0.pboaqfh.mongodb.net/"
-);
+  //"mongodb+srv://greatstackdev:05082002tanu@cluster0.pboaqfh.mongodb.net/"
+//);
+
+require('dotenv').config(); // Load environment variables from .env file
+
+
+const mongoURI = process.env.MONGO_URI;
+
+mongoose.connect(mongoURI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+.then(() => console.log('MongoDB connected'))
+.catch(err => console.log(err));
+
 
 //API creation
 

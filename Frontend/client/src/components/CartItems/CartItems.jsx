@@ -2,9 +2,17 @@ import { useContext } from "react";
 import "./CartItems.css";
 import { ShopContext } from "../../context/ShopContext";
 import remove_icon from "../Assets/cart_cross_icon.png";
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import { useState } from "react";
 
 const CartItems = () => {
   const { getTotalCartAmount,all_product, cartItems, removeFromCart } = useContext(ShopContext);
+  const [showPayPalButtons, setShowPayPalButtons] = useState(false);
+
+  const handleProceedToCheckout = () => {
+    setShowPayPalButtons(true); // Show PayPal buttons when proceeding to checkout
+  };
+  
   return (
     <div className="cartitems">
       <div className="cartitems-format-main">
@@ -61,13 +69,20 @@ const CartItems = () => {
               <h3>${getTotalCartAmount()}</h3>
             </div>
           </div>
-          <button>PROCEED TO CHECKOUT</button>
+          <button  onClick={handleProceedToCheckout}>PROCEED TO CHECKOUT</button>
+           {/* Render PayPal buttons when showPayPalButtons is true */}
+           {showPayPalButtons && (
+            <PayPalScriptProvider options={{ "client-id": "AcEsvRxVPAcRUa0OgZXGpxkk5lnOfwEJf3ci4oTsmXZcmOVqL_ajidrqO7-p-Z2PY8lWtyeVJIGjeVzN" }}>
+              <PayPalButtons />
+            </PayPalScriptProvider>
+          )}
         </div>
         <div className="cartitems-promocode">
           <p>If you have a promo code, Enter it here</p>
           <div className="cartitems-promobox">
             <input type="text" placeholder="promo code"/>
-            <button>Submit</button>
+            <button>PROCEED To Pay</button>
+         
           </div>
         </div>
       </div>
